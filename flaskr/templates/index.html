@@ -1,0 +1,40 @@
+<html>
+
+ <head> 
+ 	<link rel = "stylesheet" type = "text/css" href = "{{ url_for('static', filename='style.css') }}" />
+ </head>
+
+<center>
+	<h1 class="heading"> To Do List</h1>
+</center>
+
+<div class = "entertask">
+<form method="POST">
+	<label for = "task"> New Task </label>
+	<input name = "task" class="inputtask">
+	<input type = "submit" value = "Add Task">
+</form>
+</div>
+
+<div class = "todo">
+	<div class = "all_tasks">
+		{% for i in all_tasks %}
+		{% if i['deleted_flag'] == 0 %}
+
+		<label class="task">
+		<input type="checkbox" name="task_done" value='0'>
+			 {{ i['description'] }}
+
+		<hr class = "line">
+
+		<span class = "checkmark" > </span>
+		</label>
+		<br>
+
+		{% endif %}
+		{% endfor %}
+	</div>
+</div>
+
+</html> 
+
