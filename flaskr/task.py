@@ -20,11 +20,20 @@ def task():
 	db = get_db()
 	if request.method == 'POST':
 		task_entered = request.form['task']
-		db.execute('INSERT INTO task (description) VALUES (?)', (task_entered,))
-		db.commit()
 
-	checked = request.form.get('checked')
-	print(checked)
+		if len(task_entered) > 0:
+			db.execute('INSERT INTO task (description) VALUES (?)', (task_entered,))
+			db.commit()
+
+		to_do = list(request.form.getlist('check'))
+		print(to_do)
+		print(request.form)
+
+		for i in to_do:
+			db.execute('UPDATE task SET deleted_flag = 1 WHERE id = i')
+			db.commit()
+		
+			
 
 	try:
 		cur = db.cursor()
@@ -38,20 +47,6 @@ def task():
 
 	return render_template('index.html', all_tasks = all_tasks)
 
-def delete_task(task_id):
-	db = get_db()
-	try:
-		db.execute('UPDATE task SET deleted_flag = 1 WHERE id = task_id')
-		db.commit()
-
-		cur = db.cursor()
-		cur.execute('SELECT * FROM task WHERE deleted_flag = 0')
-	        
-		all_tasks = cur.fetchall()
-	except:
-		all_tasks = ""
-
-	return render_template('index.html', all_tasks = all_tasks)
 
 
 

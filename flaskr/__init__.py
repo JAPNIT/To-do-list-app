@@ -45,13 +45,7 @@ def create_app(test_config=None):
     from . import task
     app.register_blueprint(task.bp)
 
-    from flaskr.task import delete_task
-
-    def delete(task_id):
-        delete_task(task_id)
-        
-
-    app.jinja_env.globals.update(delete_task = delete)
+    
 
 
     return app
